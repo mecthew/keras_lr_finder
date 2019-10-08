@@ -19,6 +19,7 @@ class LRFinder:
         self.losses = []
         self.lrs = []
         self.best_loss = 1e9
+        self.best_lr = None
         self.lr_mult = None
         self.save_dir = save_dir
 
@@ -38,6 +39,7 @@ class LRFinder:
 
         if loss < self.best_loss:
             self.best_loss = loss
+            self.best_lr = lr
 
         # Increase the learning rate for the next batch
         lr *= self.lr_mult
@@ -124,6 +126,10 @@ class LRFinder:
             date_str = datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
             save_path = os.path.join(self.save_dir, date_str, '__loss.jpg')
             plt.savefig(save_path)
+            best_result_path = os.path.join(self.save_dir, 'best_result.txt')
+            with open(best_result_path, 'w', encoding='utf-8') as fout:
+                fout.write(f'best_lr: {self.best_lr}, best_loss: {self.best_loss}\n')
+                fout.close()
 
     def plot_loss_change(self, sma=1, n_skip_beginning=10, n_skip_end=5, y_lim=(-0.01, 0.01)):
         """
