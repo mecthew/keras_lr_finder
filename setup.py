@@ -10,6 +10,7 @@ setup(name='keras_lr_finder',
       packages=['keras_lr_finder'],
       install_requires=[
             'keras>=2.0.0',
-            'matplotlib'
+            'matplotlib',
+            'numpy',
       ],
       zip_safe=False)
