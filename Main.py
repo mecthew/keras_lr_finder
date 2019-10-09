@@ -8,6 +8,7 @@ from models import *
 from utils.dataset import AutoSpeechDataset
 from utils.data_process import ohe2cat
 from utils.CONSTANT import *
+from utils.tools import *
 import os
 
 
@@ -18,6 +19,7 @@ def find_lr(data_index):
     x_train, y_train = D.get_train()
     my_model = CrnnModel()
     x_train = my_model.preprocess_data(x_train)
+    log(f'x_train shape: {x_train.shape}; y_train shape: {y_train.shape}')
     y_train = ohe2cat(y_train)
     my_model.init_model(input_shape=x_train.shape[1:], num_classes=metadata[CLASS_NUM])
 
