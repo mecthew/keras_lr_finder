@@ -10,8 +10,9 @@ from utils.data_process import ohe2cat
 from utils.CONSTANT import *
 import os
 
-def find_lr():
-    D = AutoSpeechDataset(os.path.join(r"C:\Users\90584\Desktop\Github\autospeech\sample_data\DEMO", 'DEMO.data'))
+
+def find_lr(data_index):
+    D = AutoSpeechDataset(os.path.join(r"/home/chengfeng/autospeech/data/data0{}".format(data_index), 'data0{}.data'.format(data_index)))
     D.read_dataset()
     metadata = D.get_metadata()
     x_train, y_train = D.get_train()
@@ -25,4 +26,4 @@ def find_lr():
 
 
 if __name__ == '__main__':
-    find_lr()
+    find_lr(3)
