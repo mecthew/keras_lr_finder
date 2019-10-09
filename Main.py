@@ -24,7 +24,12 @@ def find_lr(data_index):
     my_model.init_model(input_shape=x_train.shape[1:], num_classes=metadata[CLASS_NUM])
 
     lr_finder = LRFinder(my_model._model)
-    lr_finder.find(x_train, y_train, start_lr=0.0001, end_lr=1, batch_size=64, epochs=5)
+    lr_finder.find(x_train, y_train, start_lr=0.0001, end_lr=1, batch_size=64, epochs=200)
+
+    # Plot the loss, ignore 20 batches in the beginning and 5 in the end
+    lr_finder.plot_loss(n_skip_beginning=20, n_skip_end=5)
+
+    lr_finder.plot_loss_change(sma=20, n_skip_beginning=20, n_skip_end=5, y_lim=(-0.01, 0.01))
 
 
 if __name__ == '__main__':
