@@ -13,10 +13,10 @@ from tensorflow.python.keras.layers import (Activation, Flatten, Conv2D,
 from tensorflow.python.keras.layers import (Conv1D, Dense, Dropout, MaxPool1D)
 from tensorflow.python.keras.models import Sequential
 
-from data_process import ohe2cat, extract_mfcc, get_max_length, pad_seq, extract_mfcc_parallel
+from utils.data_process import ohe2cat, extract_mfcc, get_max_length, pad_seq, extract_mfcc_parallel
 from models.my_classifier import Classifier
-from tools import log
-from tools import timeit
+from utils.tools import log
+from utils.tools import timeit
 
 
 class CnnModel2D(Classifier):

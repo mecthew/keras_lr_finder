@@ -3,21 +3,17 @@
 # @Time:    2019/10/5 16:43
 # @Author:  Mecthew
 
-import librosa
 import numpy as np
 import tensorflow as tf
-from tensorflow.python.keras import optimizers
-from tensorflow.python.keras.backend import clear_session
 from tensorflow.python.keras.layers import (Activation, Flatten, Conv2D, GlobalMaxPooling2D, GlobalAveragePooling2D,
-                                            MaxPooling2D, BatchNormalization, Concatenate, SpatialDropout2D)
-from tensorflow.python.keras.layers import (Input, Conv1D, Dense, Dropout, MaxPool1D)
-from tensorflow.python.keras.models import Sequential
+                                            MaxPooling2D, BatchNormalization, Concatenate)
+from tensorflow.python.keras.layers import (Input, Dense, Dropout)
 
-from data_process import ohe2cat, get_max_length, pad_seq, extract_mfcc_parallel, extract_melspectrogram_parallel
+from utils.data_process import ohe2cat, get_max_length, pad_seq, extract_mfcc_parallel, extract_melspectrogram_parallel
 from models.my_classifier import Classifier
 from tensorflow.python.keras.models import Model as TFModel
-from tools import log, timeit
-from CONSTANT import *
+from utils.tools import timeit
+from utils.CONSTANT import *
 
 
 class CnnFeatures(Classifier):

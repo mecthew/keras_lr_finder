@@ -3,8 +3,8 @@
 # @Time:    2019/9/27 10:18
 # @Author:  Mecthew
 
-from tensorflow.python.keras import backend as K
-from tensorflow import keras
+from keras import backend as K
+import keras
 
 
 class PositionEmbedding(keras.layers.Layer):

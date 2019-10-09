@@ -5,16 +5,13 @@
 
 from models.my_classifier import Classifier
 import tensorflow as tf
-from data_process import ohe2cat, extract_mfcc_parallel, get_max_length, pad_seq
-from tensorflow.python.keras.layers import (SpatialDropout1D, Input, Bidirectional, LSTM, GlobalMaxPool1D,
-                                            Dense, Dropout, CuDNNLSTM, Activation, BatchNormalization)
+from utils.data_process import ohe2cat, extract_mfcc_parallel, get_max_length, pad_seq
+from tensorflow.python.keras.layers import (SpatialDropout1D, Input, Bidirectional, GlobalMaxPool1D,
+                                            Dense, Dropout, CuDNNLSTM, Activation)
 from tensorflow.python.keras.models import Model as TFModel
 from tensorflow.python.keras import optimizers
 from models.attention import Attention
-import random
-import numpy as np
-from tensorflow.python.keras.backend import clear_session
-from tools import log
+from utils.tools import log
 
 
 class BilstmAttention(Classifier):

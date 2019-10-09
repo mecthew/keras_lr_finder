@@ -6,15 +6,14 @@
 from models.my_classifier import Classifier
 from sklearn.svm import SVC
 from sklearn.svm import LinearSVC
-from tools import log, timeit
-from data_process import ohe2cat
+from utils.tools import log, timeit
+from utils.data_process import ohe2cat
 import numpy as np
-from data_process import pad_seq, get_max_length
-from data_process import (extract_chroma_stft_parallel, extract_spectral_centroid_parallel, extract_mfcc_parallel,
+from utils.data_process import (extract_chroma_stft_parallel, extract_spectral_centroid_parallel, extract_mfcc_parallel,
                           extract_spectral_rolloff_parallel, extract_melspectrogram_parallel, extract_zero_crossing_rate_parallel,
                           extract_bandwidth_parallel, extract_chroma_cens_parallel, extract_tonnetz_parallel, extract_rms_parallel,
                           extract_spectral_contrast_parallel, extract_spectral_flatness_parallel, extract_poly_features_parallel)
-from CONSTANT import MAX_AUDIO_DURATION, IS_CUT_AUDIO, AUDIO_SAMPLE_RATE
+from utils.CONSTANT import MAX_AUDIO_DURATION, IS_CUT_AUDIO, AUDIO_SAMPLE_RATE
 from sklearn.preprocessing import StandardScaler
 from tensorflow.python.keras.backend import clear_session
 

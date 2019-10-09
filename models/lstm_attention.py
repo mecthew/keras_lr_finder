@@ -5,22 +5,14 @@
 
 from models.my_classifier import Classifier
 import tensorflow as tf
-from data_process import ohe2cat, get_max_length, pad_seq
-from data_process import (extract_mfcc_parallel, extract_melspectrogram_parallel, extract_spectral_centroid_parallel,
-                          extract_chroma_stft_parallel)
-from tensorflow.python.keras.layers import (SpatialDropout1D, Input, Bidirectional, LSTM, GlobalMaxPool1D,
-                                            Dense, Dropout, CuDNNLSTM, Activation, BatchNormalization, GRU,
-                                            CuDNNGRU, Lambda, Flatten)
+from utils.data_process import ohe2cat, get_max_length, pad_seq
+from utils.data_process import (extract_mfcc_parallel)
+from tensorflow.python.keras.layers import (SpatialDropout1D, Input, GlobalMaxPool1D,
+                                            Dense, Dropout, CuDNNLSTM, Activation, Lambda, Flatten)
 from tensorflow.python.keras.models import Model as TFModel
 from tensorflow.python.keras import optimizers
 from models.attention import Attention
-import random
-import librosa
-import numpy as np
-from  sklearn import preprocessing
-from tensorflow.python.keras.backend import clear_session
-from tools import log
-from CONSTANT import MAX_FRAME_NUM
+from utils.CONSTANT import MAX_FRAME_NUM
 
 
 class LstmAttention(Classifier):

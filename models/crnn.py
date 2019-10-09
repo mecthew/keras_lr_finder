@@ -4,16 +4,16 @@
 # @Author:  Mecthew
 
 from models.my_classifier import Classifier
-import librosa
-from tensorflow.python.keras.layers import (Input, Dense, Dropout, Activation, Flatten, Convolution2D,
+from keras.layers import (Input, Dense, Dropout, Activation, Flatten, Convolution2D,
                                             MaxPooling2D, ZeroPadding2D, ELU, GRU, Reshape, CuDNNGRU, CuDNNLSTM)
-from tensorflow.python.keras.layers.normalization import BatchNormalization
-from tensorflow.python.keras import optimizers
-from tensorflow.python.keras.models import Model as TFModel
-import tensorflow as tf
-from data_process import ohe2cat, extract_mfcc, get_max_length, pad_seq, extract_mfcc_parallel, extract_melspectrogram_parallel
+from keras.layers.normalization import BatchNormalization
+from keras import optimizers
+from keras.models import Model as TFModel
+from utils.data_process import (ohe2cat, extract_mfcc, get_max_length, pad_seq, extract_mfcc_parallel,
+                                extract_melspectrogram_parallel)
 import numpy as np
-from CONSTANT import MAX_FRAME_NUM
+from utils.CONSTANT import MAX_FRAME_NUM
+import keras
 
 
 class CrnnModel(Classifier):
@@ -31,7 +31,7 @@ class CrnnModel(Classifier):
         HOP_LEN = 256
         DURA = 21.84  # to make it 1366 frame.
 
-        x_mel = extract_melspectrogram_parallel(x, n_mels=128, use_power_db=True)
+        x_mel = extract_melspectrogram_parallel(x, n_mels=64, use_power_db=True)
         # x_mel = extract_mfcc_parallel(x, n_mfcc=96)
         if self.max_length is None:
             self.max_length = get_max_length(x_mel)
@@ -53,21 +53,21 @@ class CrnnModel(Classifier):
         # x = BatchNormalization(axis=freq_axis, name='bn_0_freq')(x)
 
         # Conv block 1
-        x = Convolution2D(64, 3, 1, padding='same', name='conv1')(melgram_input)
-        x = BatchNormalization(axis=channel_axis, name='bn1')(x)
+        x = Convolution2D(filters=64, kernel_size=3, strides=1, padding='same', name='conv1', trainable=True)(melgram_input)
+        x = BatchNormalization(axis=channel_axis, name='bn1', trainable=True)(x)
         x = ELU()(x)
         x = MaxPooling2D(pool_size=(2, 2), strides=(2, 2), name='pool1')(x)
         x = Dropout(0.1, name='dropout1')(x)
 
         # Conv block 2
-        x = Convolution2D(channel_size, 3, 1, padding='same', name='conv2')(x)
+        x = Convolution2D(filters=channel_size, kernel_size=3, strides=1, padding='same', name='conv2')(x)
         x = BatchNormalization(axis=channel_axis, name='bn2')(x)
         x = ELU()(x)
         x = MaxPooling2D(pool_size=(3, 3), strides=(3, 3), name='pool2')(x)
         x = Dropout(0.1, name='dropout2')(x)
 
         # Conv block 3
-        x = Convolution2D(channel_size, 3, 1, padding='same', name='conv3')(x)
+        x = Convolution2D(filters=channel_size, kernel_size=3, strides=1, padding='same', name='conv3')(x)
         x = BatchNormalization(axis=channel_axis, name='bn3')(x)
         x = ELU()(x)
         x = MaxPooling2D(pool_size=(4, 4), strides=(4, 4), name='pool3')(x)
@@ -75,7 +75,7 @@ class CrnnModel(Classifier):
 
         if min_size // 24 >= 4:
             # Conv block 4
-            x = Convolution2D(channel_size, 3, 1, padding='same', name='conv4')(x)
+            x = Convolution2D(filters=channel_size, kernel_size=3, strides=1, padding='same', name='conv4')(x)
             x = BatchNormalization(axis=channel_axis, name='bn4')(x)
             x = ELU()(x)
             x = MaxPooling2D(pool_size=(4, 4), strides=(4, 4), name='pool4')(x)
@@ -110,7 +110,7 @@ class CrnnModel(Classifier):
         val_x, val_y = validation_data_fit
         epochs = 5
         patience = 2
-        callbacks = [tf.keras.callbacks.EarlyStopping(monitor='val_loss', patience=patience)]
+        callbacks = [keras.callbacks.EarlyStopping(monitor='val_loss', patience=patience)]
         self._model.fit(train_x, ohe2cat(train_y),
                         epochs=epochs,
                         callbacks=callbacks,

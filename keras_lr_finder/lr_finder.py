@@ -126,7 +126,7 @@ class LRFinder:
             date_str = datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
             save_path = os.path.join(self.save_dir, date_str, '__loss.jpg')
             plt.savefig(save_path)
-            best_result_path = os.path.join(self.save_dir, 'best_result.txt')
+            best_result_path = os.path.join(self.save_dir, 'best_loss.txt')
             with open(best_result_path, 'w', encoding='utf-8') as fout:
                 fout.write(f'best_lr: {self.best_lr}, best_loss: {self.best_loss}\n')
                 fout.close()
@@ -152,6 +152,13 @@ class LRFinder:
             date_str = datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
             save_path = os.path.join(self.save_dir, date_str, '__loss-change.jpg')
             plt.savefig(save_path)
+            best_result_path = os.path.join(self.save_dir, 'best_loss_change.txt')
+            with open(best_result_path, 'w', encoding='utf-8') as fout:
+                best_loss_change_idx = derivatives.index(max(derivatives))
+                best_loss_change = derivatives[best_loss_change_idx]
+                best_lr = self.lrs[best_loss_change_idx]
+                fout.write(f'best_lr: {best_lr}, best_loss_change: {best_loss_change}\n')
+                fout.close()
 
     def get_derivatives(self, sma):
         assert sma >= 1
