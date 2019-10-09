@@ -10,7 +10,7 @@ from utils.data_process import ohe2cat
 from utils.CONSTANT import *
 from utils.tools import *
 import os
-
+os.environ["CUDA_VISIBLE_DEVICES"] = "3"
 
 def find_lr(data_index):
     D = AutoSpeechDataset(os.path.join(r"/home/chengfeng/autospeech/data/data0{}".format(data_index), 'data0{}.data'.format(data_index)))
