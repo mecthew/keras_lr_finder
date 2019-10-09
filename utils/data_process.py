@@ -10,7 +10,7 @@ from tensorflow.python.keras.preprocessing import sequence
 import numpy as np
 
 from utils.tools import timeit, log
-from CONSTANT import NUM_MFCC, FFT_DURATION, HOP_DURATION
+from utils.CONSTANT import NUM_MFCC, FFT_DURATION, HOP_DURATION
 
 pool = ThreadPool(os.cpu_count())
 
